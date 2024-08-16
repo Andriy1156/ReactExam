@@ -4,6 +4,11 @@ import '../styles/CarList.css';
 
 const CarList = ({ cars, filters, onDelete, onEdit }) => {
 
+  const checkPriceRange = (price, range) => {
+    const [min, max] = range.split('-').map(Number);
+    return price >= min && price <= max;
+  };
+
   const filteredCars = cars.filter(car => {
     return (
       (filters.manufacturer === '' || car.manufacturer.toLowerCase().includes(filters.manufacturer.toLowerCase())) &&
@@ -13,11 +18,6 @@ const CarList = ({ cars, filters, onDelete, onEdit }) => {
       (filters.priceRange === '' || checkPriceRange(car.price, filters.priceRange))
     );
   });
-
-  const checkPriceRange = (price, range) => {
-    const [min, max] = range.split('-').map(Number);
-    return price >= min && price <= max;
-  };
 
   return (
     <div className="car-list">

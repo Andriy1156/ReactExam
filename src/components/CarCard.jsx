@@ -15,7 +15,7 @@ const CarCard = ({ car, onDelete, onEdit }) => {
         <p>{car.description}</p>
       </div>
       <div className="car-actions">
-        <button className="edit-button" onClick={onEdit}>Редагувати</button>
+        <button className="edit-button" onClick={() => onEdit(car)}>Редагувати</button>
         <button className="delete-button" onClick={onDelete}>Видалити</button>
       </div>
     </div>

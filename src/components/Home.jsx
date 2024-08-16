@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Filters from '../components/Filters';
 import CarList from '../components/CarList';
 import AddCarForm from '../components/AddCarForm';
+import EditCarForm from '../components/EditCarForm'; 
 import camryImage from '../components/CarPhotos/camry.jpg';
 import civicImage from '../components/CarPhotos/civic.jpg';
 import x5Image from '../components/CarPhotos/x5.jpg';
@@ -77,6 +78,7 @@ const Home = () => {
   });
 
   const [isAddCarModalOpen, setIsAddCarModalOpen] = useState(false);
+  const [editingCar, setEditingCar] = useState(null); 
 
   const handleFilterChange = (filterName, value) => {
     setFilters({ ...filters, [filterName]: value });
@@ -95,16 +97,35 @@ const Home = () => {
     setCars(cars.map(car => car.id === updatedCar.id ? updatedCar : car));
   };
 
+  const openEditForm = (car) => {
+    setEditingCar(car);
+  };
+
+  const closeEditForm = () => {
+    setEditingCar(null);
+  };
+
+  const saveEditedCar = (editedCar) => {
+    handleEditCar(editedCar);
+  };
+
   return (
     <div className="home-container">
       <h1>Каталог автомобілів</h1>
       <Filters filters={filters} onFilterChange={handleFilterChange} />
-      <CarList cars={cars} filters={filters} onDelete={handleDeleteCar} onEdit={handleEditCar} />
+      <CarList cars={cars} filters={filters} onDelete={handleDeleteCar} onEdit={openEditForm} />
       <button className="add-car-button" onClick={() => setIsAddCarModalOpen(true)}>
         Додати автомобіль
       </button>
       {isAddCarModalOpen && (
         <AddCarForm onAddCar={handleAddCar} onClose={() => setIsAddCarModalOpen(false)} />
+      )}
+      {editingCar && (
+        <EditCarForm
+          car={editingCar}
+          onSave={saveEditedCar}
+          onClose={closeEditForm}
+        />
       )}
     </div>
   );
